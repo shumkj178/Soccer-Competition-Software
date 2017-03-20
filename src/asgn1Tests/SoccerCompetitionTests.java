@@ -19,6 +19,16 @@ import asgn1SoccerCompetition.SoccerTeam;
  *
  */
 public class SoccerCompetitionTests {
-
+	
+	SoccerCompetition soccerCompetition1;
+	SoccerCompetition soccerCompetition2;
+	SoccerCompetition soccerCompetition3;
+	
+	@Before
+	public void consturct() {
+		soccerCompetition1 = new SoccerCompetition("League1", 1, 4);
+		soccerCompetition2 = new SoccerCompetition("League2", 2, 4);
+		soccerCompetition3 = new SoccerCompetition("League3", 3, 4);
+	}
 }
 

@@ -30,7 +30,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	private int matchesLost;
 	private int matchesDrawn;	
 	private int competitionPoints;
-	private SportsTeamForm form; 
+	private SportsTeamForm form;
 		
 	/**
 	 * Creates a Soccer Team with the specified official name and nick name.
@@ -51,7 +51,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 		this.matchesLost = 0;
 		this.matchesDrawn = 0;
 		this.competitionPoints = 0;
-		form= new SportsTeamForm();
+		form = new SportsTeamForm();
 	}
 	
 	/**
@@ -158,7 +158,28 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	public void playMatch(int goalsFor, int goalsAgainst) throws TeamException{
 
 		// TO DO
-		
+		if (goalsFor < 0 || goalsAgainst < 0 || goalsFor > 20 || goalsAgainst > 20) {
+			throw new TeamException();
+		} else {
+			if (goalsFor > goalsAgainst) {
+				matchesWon += 1;
+				goalsScoredSeason += goalsFor;
+				goalsConcededSeason += goalsAgainst;
+				competitionPoints += 3;
+				form.addResultToForm(WLD.WIN);
+			} else if (goalsFor == goalsAgainst) {
+				matchesDrawn += 1;
+				goalsScoredSeason += goalsFor;
+				goalsConcededSeason += goalsAgainst;
+				competitionPoints += 1;
+				form.addResultToForm(WLD.DRAW);
+			} else {
+				matchesLost += 1;
+				goalsScoredSeason += goalsFor;
+				goalsConcededSeason += goalsAgainst;
+				form.addResultToForm(WLD.LOSS);
+			}
+		}
 	}	
 	
 	/**
@@ -181,7 +202,8 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 		if(other.competitionPoints == this.competitionPoints){
 			if((other.getGoalDifference()) == (this.getGoalDifference())){ 
 				return this.officialName.compareTo(other.officialName);
-			} return (other.getGoalDifference()) - (this.getGoalDifference());
+			} 
+			return (other.getGoalDifference()) - (this.getGoalDifference());
 		} else return other.competitionPoints -  this.competitionPoints;
 		
 		
