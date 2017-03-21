@@ -22,6 +22,7 @@ public class SportsTeamForm {
 	// The number of recent games to show as the recent form of the team
 	private static final int maxLength = 5;
 	private LinkedList<WLD> sportsTeamForms;
+	private int numGames;
 
 	/**
 	 * Constructs the data structure that holds the match results (win, loss, draw) for recent matches.
@@ -48,8 +49,10 @@ public class SportsTeamForm {
 		if (sportsTeamForms.size() >= 5) {
 			sportsTeamForms.removeLast();
 			sportsTeamForms.addFirst(result);
+			numGames += 1;
 		} else {
 			sportsTeamForms.addFirst(result);
+			numGames += 1;
 		}
 	}
 	
@@ -85,7 +88,7 @@ public class SportsTeamForm {
 	 */
 	public int getNumGames(){
 		// TO DO
-		
+		return numGames;
 	}
 	
 	/**
