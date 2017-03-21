@@ -42,7 +42,9 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	public SoccerTeam(String official, String nick) throws TeamException{
 		
 		// TO DO: ADD TESTS FOR EXCEPTIONS
-		
+		if (official.isEmpty() || nick.isEmpty()) {
+			throw new TeamException("Empty is not acceptable!");
+		}
 		this.officialName = official;
 		this.nickName = nick;
 		this.goalsScoredSeason = 0;

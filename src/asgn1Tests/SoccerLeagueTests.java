@@ -17,6 +17,10 @@ import asgn1SoccerCompetition.SoccerTeam;
  *
  */
 public class SoccerLeagueTests {
-
+	
+	@Before
+	public void construct() {
+		
+	}
 }
 

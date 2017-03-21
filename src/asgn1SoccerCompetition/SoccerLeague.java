@@ -1,7 +1,7 @@
 package asgn1SoccerCompetition;
 
 import java.util.Collections;
-import java.util.Comparator;
+//import java.util.Comparator;
 import java.util.LinkedList;
 
 import asgn1Exceptions.LeagueException;
@@ -200,12 +200,7 @@ public class SoccerLeague implements SportsLeague{
 		// TO DO (optional)
 		sortTeams();
 		for (SoccerTeam soccerTeam : soccerTeams) {
-			int matchesPlayed = soccerTeam.getMatchesWon() + soccerTeam.getMatchesDrawn() + soccerTeam.getMatchesLost();
-			System.out.println(soccerTeam.getOfficialName() + '\t' + soccerTeam.getNickName() + '\t'
-					+ soccerTeam.getFormString() + '\t' + matchesPlayed + '\t' + soccerTeam.getMatchesWon() + '\t' 
-					+ soccerTeam.getMatchesLost() + '\t' + soccerTeam.getMatchesDrawn() 
-					+ '\t' + soccerTeam.getGoalsScoredSeason() + '\t' + soccerTeam.getGoalsConcededSeason() 
-					+ '\t' + soccerTeam.getGoalDifference() + '\t' + soccerTeam.getCompetitionPoints());
+			soccerTeam.displayTeamDetails();
 		}
 	}
 	
@@ -250,34 +245,15 @@ public class SoccerLeague implements SportsLeague{
 	 */
     public void sortTeams(){		
 		// TO DO
-//    	SoccerTeam prev = null;
-//    	SoccerTeam next = null;
-//    	SoccerTeam current = null;
-//    	for (int i = 0; i < soccerTeams.size(); i++) {
-//    		current = soccerTeams.get(i);
-//    		if (i+1 == soccerTeams.size()) {
-//    			break;
-//    		} else {
-//    			next = soccerTeams.get(i+1);
-//    		}
-//    		for (int j = i; j < soccerTeams.size(); j++) {
-//    			if (current.compareTo(next) < 0) {
-//    				prev = current;
-//    				soccerTeams.remove(current);
-//    				soccerTeams.add(j+1, current);
-//    			} else if (current.compareTo(next) > 0) {
-//    				
-//    			}
-//    		}
-//			
-//		}
-    	Collections.sort(soccerTeams, new Comparator<SoccerTeam>(){
-
-			@Override
-			public int compare(SoccerTeam o1, SoccerTeam o2) {
-				// TODO Auto-generated method stub
-				return o1.compareTo(o2);
-			}});
+    	//old methods with comparator
+//    	Collections.sort(soccerTeams, new Comparator<SoccerTeam>(){
+//
+//			@Override
+//			public int compare(SoccerTeam o1, SoccerTeam o2) {
+//				// TODO Auto-generated method stub
+//				return o1.compareTo(o2);
+//			}});
+    	Collections.sort(soccerTeams);
     }
     
     /**

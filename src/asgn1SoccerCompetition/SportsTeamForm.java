@@ -68,7 +68,7 @@ public class SportsTeamForm {
 		// TO DO
 		String form = "";
 		for (int i = 0; i < maxLength; i++) {
-			if (sportsTeamForms.size() != 0) {
+			if ((sportsTeamForms.size() - i) >= 1) {
 				form = form + sportsTeamForms.get(i).getChar();
 			} else {
 				form = form + "-";
