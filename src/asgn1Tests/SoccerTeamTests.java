@@ -20,32 +20,30 @@ public class SoccerTeamTests {
 
 	SoccerTeam soccerTeam1;
 	SoccerTeam soccerTeam2;
+	SoccerTeam soccerTeam3;
 	
 	@Before
 	public void construct() throws TeamException {
 		soccerTeam1 = new SoccerTeam("Liverpool FC", "The Reds");
+		soccerTeam2 = new SoccerTeam("Manchester United FC", "Red Devils");
 	}
 	
 	@Test (expected = TeamException.class)
 	public void testCreatingTeamWithNullOfficialNameWillThrowException() throws TeamException {
-		soccerTeam2 = new SoccerTeam("Chelsea FC", "");
+		soccerTeam3 = new SoccerTeam("Chelsea FC", "");
 	}
 	
 	@Test
-	public void testGetOfficialName() {
-		assertEquals("Liverpool FC", soccerTeam1.getOfficialName());
+	public void testCreatingTeamFollowingRequirements() throws TeamException {
+		soccerTeam3 = new SoccerTeam("Arsenal FC", "Gunners");
 	}
 	
 	@Test
-	public void testGetNickName() {
-		assertEquals("The Reds", soccerTeam1.getNickName());
-	}
-	
-	@Test
-	public void testGetFormString() throws TeamException {
+	public void testGetFormStringIfNotExceedsFiveMatches() throws TeamException {
 		soccerTeam1.playMatch(1, 0);
 		soccerTeam1.playMatch(2, 1);
-		assertEquals("WW---", soccerTeam1.getFormString());
+		soccerTeam1.playMatch(3, 3);
+		assertEquals("DWW--", soccerTeam1.getFormString());
 	}
 	
 	@Test
@@ -60,8 +58,23 @@ public class SoccerTeamTests {
 	}
 	
 	@Test (expected = TeamException.class)
-	public void testPlayMatchGettingException() throws TeamException {
+	public void testPlayMatchGettingExceptionForValueLowerThan0() throws TeamException {
 		soccerTeam1.playMatch(-1, 0);
+	}
+	
+	@Test (expected = TeamException.class)
+	public void testPlayMatchGettingExceptionForValueGreaterThan20() throws TeamException {
+		soccerTeam1.playMatch(0, 21);
+	}
+	
+	@Test
+	public void testPlayMatchGettingCorrectExceptionMessage() {
+		try {
+			soccerTeam1.playMatch(0, 22);
+		} catch (TeamException e) {
+			// TODO Auto-generated catch block
+			assertEquals("", e.getMessage());
+		}
 	}
 	
 	@Test
@@ -72,5 +85,28 @@ public class SoccerTeamTests {
 		assertEquals(9, soccerTeam1.getGoalsScoredSeason());
 		assertEquals(1, soccerTeam1.getGoalsConcededSeason());
 		assertEquals(8, soccerTeam1.getGoalDifference());
+	}
+	
+	@Test
+	public void testCompareToMethodReturningCorrectValue() throws TeamException {
+		soccerTeam1.playMatch(2, 0);
+		soccerTeam2.playMatch(0, 2);
+		assertEquals(-3, soccerTeam1.compareTo(soccerTeam2));
+	}
+	
+	@Test
+	public void testResetStats() throws TeamException {
+		soccerTeam1.playMatch(3, 0);
+		assertEquals(3, soccerTeam1.getCompetitionPoints());
+		soccerTeam1.resetStats();
+		assertEquals(0, soccerTeam1.getCompetitionPoints());
+	}
+	
+	@Test
+	public void testResetStatsForTeamForms() throws TeamException {
+		soccerTeam1.playMatch(2, 0);
+		assertEquals("W----", soccerTeam1.getFormString());
+		soccerTeam1.resetStats();
+		assertEquals("-----", soccerTeam1.getFormString());
 	}
 }

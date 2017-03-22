@@ -161,7 +161,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 
 		// TO DO
 		if (goalsFor < 0 || goalsAgainst < 0 || goalsFor > 20 || goalsAgainst > 20) {
-			throw new TeamException();
+			throw new TeamException("");
 		} else {
 			if (goalsFor > goalsAgainst) {
 				matchesWon += 1;
