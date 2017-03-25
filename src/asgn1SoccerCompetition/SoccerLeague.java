@@ -49,12 +49,12 @@ public class SoccerLeague implements SportsLeague{
 	 */
 	public void registerTeam(SoccerTeam team) throws LeagueException {
 		// TO DO
-		if (soccerTeams.size() >= requiredTeams) {
+		if (!offSeason) {
+			throw new LeagueException("The league has already started.");
+		} else if (soccerTeams.size() >= requiredTeams) {
 			throw new LeagueException("The league is full.");
 		} else if (soccerTeams.contains(team)) {
 			throw new LeagueException("The team has already registered to the league.");
-		} else if (!offSeason) {
-			throw new LeagueException("The league has already started.");
 		} else {
 			soccerTeams.add(team);
 		}
@@ -105,7 +105,7 @@ public class SoccerLeague implements SportsLeague{
 	 */
 	public void startNewSeason() throws LeagueException{
 		// TO DO
-		if (soccerTeams.size() != requiredTeams) {
+		if (soccerTeams.size() < requiredTeams) {
 			throw new LeagueException("The league does not have enough of teams.");
 		} else if (offSeason == false) {
 			throw new LeagueException("The league has already started.");
@@ -126,7 +126,7 @@ public class SoccerLeague implements SportsLeague{
 	public void endSeason() throws LeagueException{
 		// TO DO 
 		if (offSeason == true) {
-			throw new LeagueException("The league has already ended.");
+			throw new LeagueException("The league has already ended or the league has not started yet.");
 		} else {
 			offSeason = true;
 		}
@@ -154,11 +154,9 @@ public class SoccerLeague implements SportsLeague{
 		for (SoccerTeam soccerTeam : soccerTeams) {
 			if (soccerTeam.getOfficialName().equals(name)) {
 				return soccerTeam;
-			} else {
-				throw new LeagueException("The team is not registered to the league.");
 			}
 		}
-		return null;
+		throw new LeagueException("The team is not registered to the league.");
 	}
 		
 	/**
@@ -173,22 +171,26 @@ public class SoccerLeague implements SportsLeague{
 	 */
 	public void playMatch(String homeTeamName, int homeTeamGoals, String awayTeamName, int awayTeamGoals) throws LeagueException{
 		// TO DO
-		for (SoccerTeam soccerTeam : soccerTeams) {
-			if (soccerTeam.getOfficialName().equals(homeTeamName)) {
-				try {
-					soccerTeam.playMatch(homeTeamGoals, awayTeamGoals);
-				} catch (TeamException e) {
-					// TODO Auto-generated catch block
-					e.getMessage();
+		if (isOffSeason()) {
+			throw new LeagueException("The league has not started yet.");
+		} else if (homeTeamName.equals(awayTeamName)) {
+			throw new LeagueException("Cannot compete with same team!");
+		} else {
+			for (SoccerTeam soccerTeam : soccerTeams) {
+				if (soccerTeam.getOfficialName().equals(homeTeamName)) {
+					try {
+						soccerTeam.playMatch(homeTeamGoals, awayTeamGoals);
+					} catch (TeamException e) {
+						e.getMessage();
+					}
+				} else if (soccerTeam.getOfficialName().equals(awayTeamName)) {
+					try {
+						soccerTeam.playMatch(awayTeamGoals, homeTeamGoals);
+					} catch (TeamException e) {
+						e.getMessage();
+					}
+					
 				}
-			} else if (soccerTeam.getOfficialName().equals(awayTeamName)) {
-				try {
-					soccerTeam.playMatch(awayTeamGoals, homeTeamGoals);
-				} catch (TeamException e) {
-					// TODO Auto-generated catch block
-					e.getMessage();
-				}
-				
 			}
 		}
 	}
