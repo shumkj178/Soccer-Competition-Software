@@ -27,20 +27,29 @@ public class SoccerLeagueTests {
 	SoccerTeam team4;
 	SoccerTeam team5;
 	
+	/**
+	 * Construct the objects needed for the tests
+	 * Register teams into the league for the tests
+	 * 
+	 * @throws LeagueException
+	 * @throws TeamException
+	 */
 	@Before
-	public void construct() {
+	public void construct() throws LeagueException, TeamException {
 		soccerLeague = new SoccerLeague(4);
 	
-		//Initialize all the objects in order to reduce redundant work for the tests		 
-		try {
-			team1 = new SoccerTeam("A Team", "team1");
-			team2 = new SoccerTeam("B Team", "team2");
-			team3 = new SoccerTeam("C Team", "team3");
-			team4 = new SoccerTeam("D Team", "team4");
-			team5 = new SoccerTeam("E Team", "team5");
-		} catch (TeamException e) {
-			e.getMessage();
-		}
+		//Initialize all the objects in order to reduce redundant works for the tests		 
+		team1 = new SoccerTeam("A Team", "team1");
+		team2 = new SoccerTeam("B Team", "team2");
+		team3 = new SoccerTeam("C Team", "team3");
+		team4 = new SoccerTeam("D Team", "team4");
+		team5 = new SoccerTeam("E Team", "team5");
+		
+		//Register 4 teams into the league to avoid redundant lines and works
+		soccerLeague.registerTeam(team1);
+		soccerLeague.registerTeam(team2);
+		soccerLeague.registerTeam(team3);
+		soccerLeague.registerTeam(team4);
 	}
 	
 	/**
@@ -49,11 +58,7 @@ public class SoccerLeagueTests {
 	 * @throws LeagueException
 	 */
 	@Test (expected = LeagueException.class)
-	public void testRegisterTeamMoreThanRequiredTeamWillThrowException() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team3);
-		soccerLeague.registerTeam(team4);
+	public void testRegisterTeamMoreThanRequiredTeamWillThrowException() throws LeagueException {	
 		soccerLeague.registerTeam(team5);
 	}
 	
@@ -65,154 +70,200 @@ public class SoccerLeagueTests {
 	@Test (expected = LeagueException.class)
 	public void testRegisterTeamThatHasBeenRegisteredWillThrowException() throws LeagueException {
 		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team1);
 	}
 	
 	/**
 	 * To test whether register team will throw exception after the league started
+	 * Use startNewSeason method to start the league
+	 * Use isOffSeason method to confirm the league has started
 	 * 
 	 * @throws LeagueException
 	 */
 	@Test (expected = LeagueException.class)
 	public void testRegisterTeamWillThrowExceptionWhenTheLeagueHasStarted() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team3);
-		soccerLeague.registerTeam(team4);
 		soccerLeague.startNewSeason();
 		assertEquals(false, soccerLeague.isOffSeason());
 		soccerLeague.registerTeam(team5);
 	}
 	
+	/**
+	 * To test the working scenario for registerTeam
+	 * Use containsTeam method for assertions to ensure the teams are registered to the league
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test
 	public void testRegisterTeamWorking() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team3);
 		assertEquals(true, soccerLeague.containsTeam("A Team"));
 		assertEquals(true, soccerLeague.containsTeam("B Team"));
 		assertEquals(true, soccerLeague.containsTeam("C Team"));
 	}
 	
+	/**
+	 * To test removeTeam will throw exception after the league has started
+	 * Use startNewSeason method to start the league
+	 * Use isOffSeason method to confirm the league has started
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test (expected = LeagueException.class)
-	public void testRemoveTeamWillGetExceptionWhenTheLeagueHasStarted() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team3);
-		soccerLeague.registerTeam(team4);
+	public void testRemoveTeamWillThrowExceptionWhenTheLeagueHasStarted() throws LeagueException {
 		soccerLeague.startNewSeason();
 		assertEquals(false, soccerLeague.isOffSeason());
 		soccerLeague.removeTeam(team1);
 	}
 	
+	/**
+	 * To test removeTeam throws exception when the team is not in the league
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test (expected = LeagueException.class)
 	public void testRemoveTeamWillGetExceptionWhenTheTeamIsNotRegisteredToTheLeague() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.removeTeam(team3);
+		soccerLeague.removeTeam(team5);
 	}
 	
+	/**
+	 * To test removeTeam working scenario
+	 * Use containsTeam for the assertions to check the team is in league or not
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test
 	public void testRemoveTeamWorking() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
 		soccerLeague.removeTeam(team2);
 		assertEquals(true, soccerLeague.containsTeam("A Team"));
 		assertEquals(false, soccerLeague.containsTeam("B Team"));
 	}
 	
+	/**
+	 * To test startNewSeason throws exception when the league has not enough of teams
+	 * removeTeam is required in order to make the league having insufficient teams
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test (expected = LeagueException.class)
 	public void testStartNewSeasonThrowExceptionWhenRequiredTeamsNumberNotReach() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
+		soccerLeague.removeTeam(team4);
 		soccerLeague.startNewSeason();
 	}
 	
+	/**
+	 * To test startNewSeason throws exception when the league has already started
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test (expected = LeagueException.class)
 	public void testStartNewSeasonThrowExceptionWhenTheLeagueHasStarted() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team3);
-		soccerLeague.registerTeam(team4);
 		soccerLeague.startNewSeason();
 		soccerLeague.startNewSeason();
 	}
 	
+	/**
+	 * To test startNewSeason working scenario
+	 * Use isOffSeason for assertion to check the league has started
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test
 	public void testStartNewSeasonWorking() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team3);
-		soccerLeague.registerTeam(team4);
 		soccerLeague.startNewSeason();
 		assertEquals(false, soccerLeague.isOffSeason());
 	}
 	
+	/**
+	 * To test endSeason throws exception when the league is not even started
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test (expected = LeagueException.class)
 	public void testEndSeasonThrowExceptionWhenTheLeagueIsNotStartedYet() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team3);
-		soccerLeague.registerTeam(team4);
 		soccerLeague.endSeason();
 	}
 	
+	/**
+	 * To test working scenario for endSeason
+	 * Use isOffSeason to ensure the league has ended
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test
 	public void testEndSeasonWorking() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team3);
-		soccerLeague.registerTeam(team4);
 		soccerLeague.startNewSeason();
 		soccerLeague.endSeason();
 		assertEquals(true, soccerLeague.isOffSeason());
 	}
 	
+	/**
+	 * To test getTeamByOfficialName throw exception when the team is not registered into the league
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test (expected = LeagueException.class)
 	public void testGetTeamByOfficialNameThrowExceptionWhenTeamIsNotRegistered() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team3);
-		soccerLeague.getTeamByOfficalName("D Team");
+		soccerLeague.getTeamByOfficalName("E Team");
 	}
 	
+	/**
+	 * To test working scenario for getTeamByOfficialName method
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test
 	public void testGetTeamByOfficialNameWorking() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
 		assertEquals(team1, soccerLeague.getTeamByOfficalName("A Team"));
 		assertEquals(team2, soccerLeague.getTeamByOfficalName("B Team"));
 	}
 	
+	/**
+	 * To test getTopTeam throws exception when there is no team in the league
+	 * removeTeam method is used to make the league without any team
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test (expected = LeagueException.class)
 	public void testGetTopTeamThrowExceptionWhenThereIsNoTeamInTheLeague() throws LeagueException {
+		soccerLeague.removeTeam(team1);
+		soccerLeague.removeTeam(team2);
+		soccerLeague.removeTeam(team3);
+		soccerLeague.removeTeam(team4);
 		soccerLeague.getTopTeam();
 	}
 	
+	/**
+	 * To test getTopTeam throws exception when the required number of teams not reach
+	 * removeTeam is used to make the league having insufficient teams
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test (expected = LeagueException.class)
 	public void testGetTopTeamThrowExceptionWhenTheRequiredTeamsNumberNotReach() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
+		soccerLeague.removeTeam(team1);
 		soccerLeague.getTopTeam();
 	}
 	
+	/**
+	 * To test getTopTeam working scenario
+	 * sortTeams is used for sorting the teams in order to get correct top team
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test
 	public void testGetTopTeamWorkingForDefaultStandings() throws LeagueException {
-		soccerLeague.registerTeam(team4);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team3);
-		soccerLeague.registerTeam(team1);
 		soccerLeague.startNewSeason();
 		soccerLeague.sortTeams();
 		assertEquals(team1, soccerLeague.getTopTeam());
 	}
 	
+	/**
+	 * To test working scenario for getTopTeam after playing matches
+	 * playMatch is used for the teams to play match
+	 * sortTeams is used for sorting the teams in order to get correct top team
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test
 	public void testGetTopTeamWorkingForAfterPlayingMatches() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team3);
-		soccerLeague.registerTeam(team4);
 		soccerLeague.startNewSeason();
 		soccerLeague.playMatch("C Team", 5, "B Team", 3);
 		soccerLeague.playMatch("D Team", 0, "A Team", 0);
@@ -220,35 +271,55 @@ public class SoccerLeagueTests {
 		assertEquals(team3, soccerLeague.getTopTeam());
 	}
 	
+	/**
+	 * To test getBottomTeam throws exception when there is no team in the league
+	 * removeTeam method is used to make the league without any team
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test (expected = LeagueException.class)
 	public void testGetBottomTeamThrowExceptionWhenThereIsNoTeamInTheLeague() throws LeagueException {
+		soccerLeague.removeTeam(team1);
+		soccerLeague.removeTeam(team2);
+		soccerLeague.removeTeam(team3);
+		soccerLeague.removeTeam(team4);
 		soccerLeague.getBottomTeam();
 	}
 	
+	/**
+	 * To test getBottomTeam throws exception when the required number of teams not reach
+	 * removeTeam is used to make the league having insufficient teams
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test (expected = LeagueException.class)
 	public void testGetBottomTeamThrowExceptionWhenTheRequiredTeamsNumberNotReach() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
+		soccerLeague.removeTeam(team1);
 		soccerLeague.getBottomTeam();
 	}
 	
+	/**
+	 * To test getBottomTeam working scenario
+	 * sortTeams is used for sorting the teams in order to get correct bottom team
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test
 	public void testGetBottomTeamWorkingForDefaultStandings() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team4);
-		soccerLeague.registerTeam(team3);
 		soccerLeague.startNewSeason();
 		soccerLeague.sortTeams();
 		assertEquals(team4, soccerLeague.getBottomTeam());
 	}
 	
+	/**
+	 * To test working scenario for getBottomTeam after playing matches
+	 * playMatch is used for the teams to play match
+	 * sortTeams is used for sorting the teams in order to get correct bottom team
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test
 	public void testGetBottomTeamWorkingAfterPlayingMatches() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team3);
-		soccerLeague.registerTeam(team4);
 		soccerLeague.startNewSeason();
 		soccerLeague.playMatch("C Team", 5, "B Team", 3);
 		soccerLeague.playMatch("D Team", 0, "A Team", 0);
@@ -256,41 +327,46 @@ public class SoccerLeagueTests {
 		assertEquals(team2, soccerLeague.getBottomTeam());
 	}
 	
+	/**
+	 * To test playMatch throws exception if the league has not started
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test (expected = LeagueException.class)
 	public void testPlayMatchThrowExceptionIfTheLeagueHasNotStartedYet() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team3);
-		soccerLeague.registerTeam(team4);
 		soccerLeague.playMatch("A Team", 0, "B Team", 3);
 	}
 	
+	/**
+	 * To test playMatch throws exception if the same team is competing each other
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test (expected = LeagueException.class)
 	public void testPlayMatchThrowExceptionWhenSameTeamPlayAgainstEachOther() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team3);
-		soccerLeague.registerTeam(team4);
 		soccerLeague.playMatch("B Team", 0, "B Team", 3);
 	}
 	
+	/**
+	 * To test playMatch working scenario
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test
 	public void testPlayMatchWorking() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team3);
-		soccerLeague.registerTeam(team4);
 		soccerLeague.startNewSeason();
 		soccerLeague.playMatch("B Team", 2, "D Team", 0);
 		soccerLeague.playMatch("C Team", 4, "A Team", 1);
 	}
 	
+	/**
+	 * To test sortTeams sorting with competition points
+	 * Use playMatch in order to create scores
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test
 	public void testSortTeamWithCompetitionPoints() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team3);
-		soccerLeague.registerTeam(team4);
 		soccerLeague.startNewSeason();
 		// A: 9pts; B: 6pts; C:0pts; D:3pts
 		soccerLeague.playMatch("A Team", 3, "B Team", 0);
@@ -304,12 +380,14 @@ public class SoccerLeagueTests {
 		assertEquals("C Team", soccerLeague.getBottomTeam().getOfficialName());
 	}
 	
+	/**
+	 * To test sortTeams sorting with goal difference
+	 * Use playMatch in order to create scores
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test
 	public void testSortTeamWithGoalDifference() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team3);
-		soccerLeague.registerTeam(team4);
 		soccerLeague.startNewSeason();
 		// A:7pts, 5gd; B:3pts, -4gd; C:0pts, -5gd; D:7pts, 4gd 
 		soccerLeague.playMatch("A Team", 3, "B Team", 0);
@@ -323,12 +401,14 @@ public class SoccerLeagueTests {
 		assertEquals("C Team", soccerLeague.getBottomTeam().getOfficialName());
 	}
 	
+	/**
+	 * To test sortTeams sorting alphabetically
+	 * Use playMatch in order to create scores
+	 * 
+	 * @throws LeagueException
+	 */
 	@Test
-	public void testSortTeamWithAlphaberic() throws LeagueException {
-		soccerLeague.registerTeam(team1);
-		soccerLeague.registerTeam(team2);
-		soccerLeague.registerTeam(team3);
-		soccerLeague.registerTeam(team4);
+	public void testSortTeamWAlphabetically() throws LeagueException {
 		soccerLeague.startNewSeason();
 		// A:7pts, 6gd; B:1pts, -6gd; C:1pts, -6gd; D:7pts, 6gd 
 		soccerLeague.playMatch("A Team", 3, "B Team", 0);
@@ -340,6 +420,26 @@ public class SoccerLeagueTests {
 		soccerLeague.sortTeams();
 		assertEquals("A Team", soccerLeague.getTopTeam().getOfficialName());
 		assertEquals("C Team", soccerLeague.getBottomTeam().getOfficialName());
+	}
+	
+	/**
+	 * To test containsTeam working scenario
+	 * 
+	 * @return true
+	 */
+	@Test
+	public void testContainsTeamWorkingTrueScenario() {
+		assertEquals(true, soccerLeague.containsTeam("A Team"));
+	}
+	
+	/**
+	 * To test containsTeam working scenario
+	 * 
+	 * @return false
+	 */
+	@Test
+	public void testContainsTeamWorkingFalseScenario() {
+		assertEquals(false, soccerLeague.containsTeam("E Team"));
 	}
 }
 

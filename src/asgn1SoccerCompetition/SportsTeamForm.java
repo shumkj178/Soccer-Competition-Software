@@ -46,7 +46,7 @@ public class SportsTeamForm {
 	 */
 	public void addResultToForm(WLD result){ 
 		// TODO
-		if (sportsTeamForms.size() >= 5) {
+		if (sportsTeamForms.size() >= maxLength) {
 			sportsTeamForms.removeLast();
 			sportsTeamForms.addFirst(result);
 			numGames += 1;
