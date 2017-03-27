@@ -22,34 +22,59 @@ public class SoccerCompetitionTests {
 	
 	SoccerCompetition soccerCompetition1;
 	SoccerCompetition soccerCompetition2;
-	SoccerCompetition soccerCompetition3;
-	SoccerCompetition soccerCompetition4;
+	SoccerLeague soccerLeague1;
+	SoccerLeague soccerLeague2;
+	SoccerTeam soccerTeam1;
+	SoccerTeam soccerTeam2;
+	SoccerTeam soccerTeam3;
+	SoccerTeam soccerTeam4;
 	
 	@Before
-	public void consturct() {
-		//create object for 1 league
-		soccerCompetition1 = new SoccerCompetition("League1", 1, 4);
-		//create object for 2 leagues
-		soccerCompetition2 = new SoccerCompetition("League2", 2, 4);
-		//create object for 3 leagues
-		soccerCompetition3 = new SoccerCompetition("League3", 3, 4);
-		//create object for 4 leagues
-		soccerCompetition4 = new SoccerCompetition("League4", 4, 4);
+	public void consturct() throws TeamException, LeagueException, CompetitionException {
+		//initialize objects for tests
+		soccerCompetition1 = new SoccerCompetition("Competition 1", 1, 4);
+		soccerCompetition2 = new SoccerCompetition("Competition 2", 2, 4);
+		soccerLeague1 = new SoccerLeague(4);
+		soccerLeague2 = new SoccerLeague(4);
+		soccerTeam1 = new SoccerTeam("A Team", "Team 1");
+		soccerTeam2 = new SoccerTeam("B Team", "Team 2");
+		soccerTeam3 = new SoccerTeam("C Team", "Team 3");
+		soccerTeam4 = new SoccerTeam("D Team", "Team 4");
+		soccerLeague1.registerTeam(soccerTeam1);
+		soccerLeague1.registerTeam(soccerTeam2);
+		soccerLeague1.registerTeam(soccerTeam3);
+		soccerLeague1.registerTeam(soccerTeam4);
+		soccerCompetition1.getLeague(0).registerTeam(soccerTeam1);
 	}
 	
-	@Test
-	public void testGettingCorrectAndIncorrectLeague() throws CompetitionException {
-		SoccerLeague x = soccerCompetition3.getLeague(1);
-		SoccerLeague y = soccerCompetition3.getLeague(2);
-		assertNotSame(soccerCompetition3.getLeague(0), x);
-		assertSame(soccerCompetition3.getLeague(2), y);
+	/**
+	 * To test getLeague working scenario using assertions
+	 * 
+	 * @throws CompetitionException
+	 */
+	@Test 
+	public void testGetLeagueWorking() throws CompetitionException {
+		SoccerLeague x = soccerCompetition1.getLeague(0);
+		SoccerLeague y = soccerCompetition2.getLeague(1);
+		assertSame(soccerCompetition1.getLeague(0), x);
+		assertSame(soccerCompetition2.getLeague(1), y);
 	}
 	
+	/**
+	 * To test getLeague throws exception when the league is not existed
+	 * 
+	 * @throws CompetitionException
+	 */
 	@Test (expected = CompetitionException.class)
 	public void testGettingNotExistingLeagueWillThrowException() throws CompetitionException {
 		soccerCompetition2.getLeague(2);
 	}
 	
+	/**
+	 * To test getLeague throws exception message
+	 * 
+	 * @throws CompetitionException
+	 */
 	@Test
 	public void testGetLeagueExceptionPromptMessage() {
 		try {
@@ -59,6 +84,26 @@ public class SoccerCompetitionTests {
 			assertEquals("No such league.", e.getMessage());
 		}
 		
+	}
+	
+	/**
+	 * To test startNewSeason working scenario
+	 * 
+	 */
+	@Test
+	public void testStartNewSeasonWorking() {
+		soccerCompetition1.startSeason();
+	}
+	
+	/**
+	 * To test startNewSeason fails when the league has not enough of teams
+	 * @throws CompetitionException 
+	 * @throws LeagueException 
+	 */
+	@Test
+	public void testStartNewSeasonFailWhenTeamsAreNotEnough() throws LeagueException, CompetitionException {
+		soccerCompetition1.startSeason();
+		assertEquals("A Team", soccerCompetition1.getLeague(0).getTeamByOfficalName("A Team"));
 	}
 }
 

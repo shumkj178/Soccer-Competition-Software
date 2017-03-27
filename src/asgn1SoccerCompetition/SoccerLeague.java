@@ -49,7 +49,7 @@ public class SoccerLeague implements SportsLeague{
 	 */
 	public void registerTeam(SoccerTeam team) throws LeagueException {
 		// TO DO
-		if (!offSeason) {
+		if (!isOffSeason()) {
 			throw new LeagueException("The league has already started.");
 		} else if (soccerTeams.size() >= requiredTeams) {
 			throw new LeagueException("The league is full.");
@@ -68,7 +68,7 @@ public class SoccerLeague implements SportsLeague{
 	 */
 	public void removeTeam(SoccerTeam team) throws LeagueException{
 		// TO DO
-		if (offSeason == false) {
+		if (!isOffSeason()) {
 			throw new LeagueException("The league has already started.");
 		} else if (!soccerTeams.contains(team)) {
 			throw new LeagueException("The team has not registered to the league.");
@@ -107,7 +107,7 @@ public class SoccerLeague implements SportsLeague{
 		// TO DO
 		if (soccerTeams.size() < requiredTeams) {
 			throw new LeagueException("The league does not have enough of teams.");
-		} else if (offSeason == false) {
+		} else if (!isOffSeason()) {
 			throw new LeagueException("The league has already started.");
 		} else {
 			for (SoccerTeam soccerTeam : soccerTeams) {
@@ -125,7 +125,7 @@ public class SoccerLeague implements SportsLeague{
 	 */
 	public void endSeason() throws LeagueException{
 		// TO DO 
-		if (offSeason == true) {
+		if (isOffSeason()) {
 			throw new LeagueException("The league has already ended or the league has not started yet.");
 		} else {
 			offSeason = true;

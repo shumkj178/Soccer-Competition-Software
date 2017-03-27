@@ -25,7 +25,6 @@ public class SoccerCompetition implements SportsCompetition {
 	String name;
 	//
 	private int numLeagues;
-	private int numTeams;
 	private LinkedList<SoccerLeague> soccerLeagues;
 
 	/**
@@ -44,7 +43,6 @@ public class SoccerCompetition implements SportsCompetition {
 		this.name = name;
 		// TO DO Complete
 		this.numLeagues = numLeagues;
-		this.numTeams = numTeams;
 		soccerLeagues = new LinkedList<SoccerLeague>();
 		for (int i = 0; i < numLeagues; i++) {
 			soccerLeagues.add(new SoccerLeague(numTeams));
