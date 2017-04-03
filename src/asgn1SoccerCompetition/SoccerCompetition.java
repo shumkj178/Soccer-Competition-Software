@@ -78,7 +78,6 @@ public class SoccerCompetition implements SportsCompetition {
 			try {
 				soccerLeague.startNewSeason();
 			} catch (LeagueException e) {
-				// TODO Auto-generated catch block
 				e.getMessage();
 			}
 		}
@@ -107,7 +106,6 @@ public class SoccerCompetition implements SportsCompetition {
 						soccerLeagues.get(i).removeTeam(tempLoser);
 						soccerLeagues.get(i).registerTeam(tempWinner);
 					} catch (LeagueException e) {
-						// TODO Auto-generated catch block
 						e.getMessage();
 					}
 				} else if (i == (numLeagues - 1)) {
@@ -117,7 +115,6 @@ public class SoccerCompetition implements SportsCompetition {
 						soccerLeagues.get(i).removeTeam(currentWinner);
 						soccerLeagues.get(i).registerTeam(prevLoser);
 					} catch (LeagueException e) {
-						// TODO Auto-generated catch block
 						e.getMessage();
 					}
 				} else {
@@ -132,7 +129,6 @@ public class SoccerCompetition implements SportsCompetition {
 						soccerLeagues.get(i).registerTeam(tempWinner);
 						prevLoser = tempLoser;
 					} catch (LeagueException e) {
-						// TODO Auto-generated catch block
 						e.getMessage();
 					}
 				}
@@ -141,7 +137,6 @@ public class SoccerCompetition implements SportsCompetition {
 				try {
 					soccerLeagues.get(i).endSeason();
 				} catch (LeagueException e) {
-					// TODO Auto-generated catch block
 					e.getMessage();
 				}
 			}

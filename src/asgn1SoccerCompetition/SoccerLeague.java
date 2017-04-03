@@ -1,7 +1,6 @@
 package asgn1SoccerCompetition;
 
 import java.util.Collections;
-//import java.util.Comparator;
 import java.util.LinkedList;
 
 import asgn1Exceptions.LeagueException;
@@ -214,13 +213,12 @@ public class SoccerLeague implements SportsLeague{
 	 */
 	public SoccerTeam getTopTeam() throws LeagueException{
 		// TO DO
-		if (soccerTeams.size()== 0) {
+		if (getRegisteredNumTeams() == 0) {
 			throw new LeagueException("There is no team in the league.");
-		} else if (soccerTeams.size() < requiredTeams) {
+		} else if (getRegisteredNumTeams() < getRequiredNumTeams()) {
 			throw new LeagueException("There is insufficient number of teams in the league.");
 		} else {
-			SoccerTeam temp = soccerTeams.getFirst();
-			return temp;
+			return soccerTeams.getFirst();
 		}
 	}
 
@@ -232,13 +230,12 @@ public class SoccerLeague implements SportsLeague{
 	 */
 	public SoccerTeam getBottomTeam() throws LeagueException{
 		// TO DO
-		if (soccerTeams.size()== 0) {
+		if (getRegisteredNumTeams() == 0) {
 			throw new LeagueException("There is no team in the league.");
-		} else if (soccerTeams.size() < requiredTeams) {
+		} else if (getRegisteredNumTeams() < getRequiredNumTeams()) {
 			throw new LeagueException("There is insufficient number of teams in the league.");
 		} else {
-			SoccerTeam temp = soccerTeams.getLast();
-			return temp;
+			return soccerTeams.getLast();
 		}
 	}
 
@@ -247,14 +244,6 @@ public class SoccerLeague implements SportsLeague{
 	 */
     public void sortTeams(){		
 		// TO DO
-    	//old methods with comparator
-//    	Collections.sort(soccerTeams, new Comparator<SoccerTeam>(){
-//
-//			@Override
-//			public int compare(SoccerTeam o1, SoccerTeam o2) {
-//				// TODO Auto-generated method stub
-//				return o1.compareTo(o2);
-//			}});
     	Collections.sort(soccerTeams);
     }
     
