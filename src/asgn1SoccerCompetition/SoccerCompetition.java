@@ -22,8 +22,9 @@ import asgn1Exceptions.LeagueException;
  */
 public class SoccerCompetition implements SportsCompetition {
 
+	//default
 	String name;
-	//
+	//added variables
 	private int numLeagues;
 	private LinkedList<SoccerLeague> soccerLeagues;
 
@@ -41,7 +42,6 @@ public class SoccerCompetition implements SportsCompetition {
 	 */
 	public SoccerCompetition(String name, int numLeagues, int numTeams) {
 		this.name = name;
-		// TO DO Complete
 		this.numLeagues = numLeagues;
 		soccerLeagues = new LinkedList<SoccerLeague>();
 		for (int i = 0; i < numLeagues; i++) {
@@ -61,7 +61,6 @@ public class SoccerCompetition implements SportsCompetition {
 	 *             greater than the number of leagues in the competition.
 	 */
 	public SoccerLeague getLeague(int leagueNum) throws CompetitionException {
-		// TO DO
 		if (leagueNum < 0 || leagueNum >= numLeagues) {
 			throw new CompetitionException("No such league.");
 		} else {
@@ -73,12 +72,11 @@ public class SoccerCompetition implements SportsCompetition {
 	 * Starts a new soccer season for each league in the competition.
 	 */
 	public void startSeason() {
-		// TO DO
 		for (SoccerLeague soccerLeague : soccerLeagues) {
 			try {
 				soccerLeague.startNewSeason();
 			} catch (LeagueException e) {
-				e.getMessage();
+				System.out.println(e.getMessage());
 			}
 		}
 	}
@@ -90,7 +88,7 @@ public class SoccerCompetition implements SportsCompetition {
 	 * 
 	 */
 	public void endSeason() {
-		// TO DO
+		//initialize temporary objects to hold the winner and loser teams
 		SoccerTeam tempLoser = null;
 		SoccerTeam tempWinner = null;
 		SoccerTeam currentWinner = null;
@@ -106,7 +104,7 @@ public class SoccerCompetition implements SportsCompetition {
 						soccerLeagues.get(i).removeTeam(tempLoser);
 						soccerLeagues.get(i).registerTeam(tempWinner);
 					} catch (LeagueException e) {
-						e.getMessage();
+						System.out.println(e.getMessage());
 					}
 				} else if (i == (numLeagues - 1)) {
 					try {
@@ -115,7 +113,7 @@ public class SoccerCompetition implements SportsCompetition {
 						soccerLeagues.get(i).removeTeam(currentWinner);
 						soccerLeagues.get(i).registerTeam(prevLoser);
 					} catch (LeagueException e) {
-						e.getMessage();
+						System.out.println(e.getMessage());
 					}
 				} else {
 					try {
@@ -129,7 +127,7 @@ public class SoccerCompetition implements SportsCompetition {
 						soccerLeagues.get(i).registerTeam(tempWinner);
 						prevLoser = tempLoser;
 					} catch (LeagueException e) {
-						e.getMessage();
+						System.out.println(e.getMessage());
 					}
 				}
 						
@@ -137,7 +135,7 @@ public class SoccerCompetition implements SportsCompetition {
 				try {
 					soccerLeagues.get(i).endSeason();
 				} catch (LeagueException e) {
-					e.getMessage();
+					System.out.println(e.getMessage());
 				}
 			}
 		}
@@ -148,20 +146,11 @@ public class SoccerCompetition implements SportsCompetition {
 	 */
 	public void displayCompetitionStandings() {
 		System.out.println("+++++" + this.name + "+++++");
-
-		// TO DO (optional)
-		// HINT The heading for each league is
-
-		// System.out.println("---- League" + (i +1) + " ----");
-		// System.out.println("Official Name" + '\t' + "Nick Name" + '\t' +
-		// "Form" + '\t' + "Played" + '\t' + "Won" + '\t' + "Lost" + '\t' +
-		// "Drawn" + '\t' + "For" + '\t' + "Against" + '\t' + "GlDiff" + '\t' +
-		// "Points");
 		for (int i = 0; i < soccerLeagues.size(); i++) {
 			System.out.println("---- League" + (i + 1) + " ----");
-			System.out.println("Official Name" + '\t' + "Nick Name" + '\t' + "Form" + '\t' + "Played" + '\t' + "Won"
-					+ '\t' + "Lost" + '\t' + "Drawn" + '\t' + "For" + '\t' + "Against" + '\t' + "GlDiff" + '\t'
-					+ "Points");
+			System.out.println("Official Name" + '\t' + "Nick Name" + '\t' + "Form" + '\t' + "Played" + '\t'
+					+ "Won" + '\t' + "Lost" + '\t' + "Drawn" + '\t' + "For" + '\t' + "Against" + '\t' + "GlDiff"
+					+ '\t' + "Points");
 			soccerLeagues.get(i).displayLeagueTable();
 		}
 	}

@@ -25,16 +25,16 @@ public class SportsTeamFormTests {
 	
 	/**
 	 * test addResultToForm with different scenarios
-	 * eg1: when added 4 times (result = WWWW-)
-	 * eg2: when added 5 times (result = DWWWW)
-	 * eg3: when added 6 times which exceeds max length (result = LDWWW)
+	 * Assertion 1: when added 4 times (result = WWWW-)
+	 * Assertion 2: when added 5 times (result = DWWWW)
+	 * Assertion 3: when added 6 times which exceeds max length (result = LDWWW)
 	 */
 	@Test
 	public void testAddResultToFormWorking() {
 		sportsTeamForms.addResultToForm(WLD.WIN);
 		sportsTeamForms.addResultToForm(WLD.WIN);
 		sportsTeamForms.addResultToForm(WLD.WIN);
-		sportsTeamForms.addResultToForm(WLD.WIN);
+		sportsTeamForms.addResultToForm(WLD.WIN);		
 		assertEquals("WWWW-", sportsTeamForms.toString());
 		sportsTeamForms.addResultToForm(WLD.DRAW);
 		assertEquals("DWWWW", sportsTeamForms.toString());
@@ -43,7 +43,7 @@ public class SportsTeamFormTests {
 	}
 	
 	/**
-	 * test resetForm will reset all the data/stats to initiate value
+	 * test resetForm will reset all the data/stats to initial value
 	 * first assertion: to ensure forms have been added
 	 * second assertion: to test out the forms have been reset
 	 */
@@ -55,5 +55,89 @@ public class SportsTeamFormTests {
 		assertEquals("WLD--", sportsTeamForms.toString());
 		sportsTeamForms.resetForm();
 		assertEquals("-----", sportsTeamForms.toString());
+	}
+	
+	/**
+	 * test inital toString
+	 */
+	@Test
+	public void testToStringWhenNoGameIsPlayed() {
+		assertEquals("-----", sportsTeamForms.toString());
+	}
+	
+	/**
+	 * test toString when one game is played
+	 */
+	@Test
+	public void testToStringWhenOneGameWasPlayed() {
+		sportsTeamForms.addResultToForm(WLD.DRAW);
+		assertEquals("D----", sportsTeamForms.toString());
+	}
+	
+	/**
+	 * test toString when six games are played
+	 */
+	@Test
+	public void testToStringWhenSixGamesWerePlayed() {
+		sportsTeamForms.addResultToForm(WLD.LOSS);
+		sportsTeamForms.addResultToForm(WLD.LOSS);
+		sportsTeamForms.addResultToForm(WLD.LOSS);
+		sportsTeamForms.addResultToForm(WLD.LOSS);
+		sportsTeamForms.addResultToForm(WLD.LOSS);
+		sportsTeamForms.addResultToForm(WLD.DRAW);
+		assertEquals("DLLLL", sportsTeamForms.toString());
+	}
+	
+	/**
+	 * test toString after resetting forms
+	 */
+	@Test
+	public void testToStringAfterResetForm() {
+		sportsTeamForms.addResultToForm(WLD.LOSS);
+		sportsTeamForms.addResultToForm(WLD.DRAW);
+		sportsTeamForms.resetForm();
+		assertEquals("-----", sportsTeamForms.toString());
+	}
+	
+	/**
+	 * test getNumGames when no game is played
+	 */
+	@Test
+	public void testGetNumGamesWhenNoGameIsPlayed() {
+		assertEquals(0, sportsTeamForms.getNumGames());
+	}
+	
+	/**
+	 * test getNumGames when only one game was played
+	 */
+	@Test
+	public void testGetNumGamesWhenOneGameWasPlayed() {
+		sportsTeamForms.addResultToForm(WLD.WIN);
+		assertEquals(1, sportsTeamForms.getNumGames());
+	}
+	
+	/**
+	 * test getNumGames when six games were played
+	 */
+	@Test
+	public void testGetNumGamesWhenSixGamesWerePlayed() {
+		sportsTeamForms.addResultToForm(WLD.WIN);
+		sportsTeamForms.addResultToForm(WLD.WIN);
+		sportsTeamForms.addResultToForm(WLD.WIN);
+		sportsTeamForms.addResultToForm(WLD.WIN);
+		sportsTeamForms.addResultToForm(WLD.WIN);
+		sportsTeamForms.addResultToForm(WLD.WIN);
+		assertEquals(5, sportsTeamForms.getNumGames());
+	}
+	
+	/**
+	 * test getNumGames after resetting forms
+	 */
+	@Test
+	public void testGetNumGamesAfterResetForm() {
+		sportsTeamForms.addResultToForm(WLD.WIN);
+		sportsTeamForms.addResultToForm(WLD.LOSS);
+		sportsTeamForms.resetForm();
+		assertEquals(0, sportsTeamForms.getNumGames());
 	}
 }

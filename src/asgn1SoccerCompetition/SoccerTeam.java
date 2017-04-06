@@ -40,9 +40,8 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	 * @throws TeamException If either the official or nick are empty strings.
 	 */
 	public SoccerTeam(String official, String nick) throws TeamException{
-		
-		// TO DO: ADD TESTS FOR EXCEPTIONS
-		if (official.isEmpty() || nick.isEmpty()) {
+		//Check condition for official name and nick name, remove white spaces with trim
+		if (official.trim().isEmpty() || nick.trim().isEmpty()) {
 			throw new TeamException("Empty is not acceptable!");
 		}
 		this.officialName = official;
@@ -158,10 +157,8 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	 * @throws TeamException If the number of goals scored or conceded is an unrealistic number (less than 0 or greater than 20).
 	 */
 	public void playMatch(int goalsFor, int goalsAgainst) throws TeamException{
-
-		// TO DO
 		if (goalsFor < 0 || goalsAgainst < 0 || goalsFor > 20 || goalsAgainst > 20) {
-			throw new TeamException("");
+			throw new TeamException("Unrealistic number of goals!");
 		} else {
 			if (goalsFor > goalsAgainst) {
 				matchesWon += 1;
@@ -206,9 +203,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 				return this.officialName.compareTo(other.officialName);
 			} 
 			return (other.getGoalDifference()) - (this.getGoalDifference());
-		} else return other.competitionPoints -  this.competitionPoints;
-		
-		
+		} else return other.competitionPoints -  this.competitionPoints;	
 	}
 	
 		

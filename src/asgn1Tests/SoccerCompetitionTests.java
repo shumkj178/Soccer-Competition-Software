@@ -22,8 +22,10 @@ import junit.framework.Assert;
  */
 public class SoccerCompetitionTests {
 
+	//Declare objects need for unit test
 	SoccerCompetition soccerCompetition1;
 	SoccerLeague soccerLeague1;
+	//Declare array to store teams
 	SoccerTeam[] teams = new SoccerTeam[16];
 
 	@Before
@@ -31,6 +33,9 @@ public class SoccerCompetitionTests {
 		// initialize objects for tests
 		soccerCompetition1 = new SoccerCompetition("Competition 1", 1, 4);
 		soccerLeague1 = soccerCompetition1.getLeague(0);
+		/* register 4 teams into 1 league only
+		 * in order to shorten execution time as not every test needs 4 leagues with teams
+		 */
 		for (int i = 0; i < 16; i++) {
 			teams[i] = new SoccerTeam("Team " + i, "team " + i);
 			if (i <= 3) {
@@ -51,7 +56,7 @@ public class SoccerCompetitionTests {
 	}
 
 	/**
-	 * To test getLeague throws exception when input a larger value than league number - 1
+	 * To test getLeague throws exception when input a larger value than league number = 1
 	 * 
 	 * @throws CompetitionException
 	 */
@@ -80,7 +85,6 @@ public class SoccerCompetitionTests {
 		try {
 			soccerCompetition1.getLeague(1);
 		} catch (CompetitionException e) {
-			// TODO Auto-generated catch block
 			assertEquals("No such league.", e.getMessage());
 		}
 
