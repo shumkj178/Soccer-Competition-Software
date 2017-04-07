@@ -117,7 +117,7 @@ public class SportsTeamFormTests {
 	}
 	
 	/**
-	 * test getNumGames when six games were played
+	 * test getNumGames when six games were played = 5 (maximum length)
 	 */
 	@Test
 	public void testGetNumGamesWhenSixGamesWerePlayed() {

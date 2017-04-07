@@ -30,7 +30,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	private int matchesLost;
 	private int matchesDrawn;	
 	private int competitionPoints;
-	private SportsTeamForm form;
+	private SportsTeamForm forms;
 		
 	/**
 	 * Creates a Soccer Team with the specified official name and nick name.
@@ -52,7 +52,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 		this.matchesLost = 0;
 		this.matchesDrawn = 0;
 		this.competitionPoints = 0;
-		form = new SportsTeamForm();
+		forms = new SportsTeamForm();
 	}
 	
 	/**
@@ -63,7 +63,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	 * 
 	 */
 	public void displayTeamDetails(){
-		System.out.println(officialName  + '\t' + nickName + '\t' + form + '\t' + (+ matchesWon + matchesLost + matchesDrawn) + '\t' + matchesWon + '\t' + matchesLost + '\t' + matchesDrawn +'\t' + goalsScoredSeason + '\t' + goalsConcededSeason + '\t' + this.getGoalDifference() + '\t' + competitionPoints);
+		System.out.println(officialName  + '\t' + nickName + '\t' + forms + '\t' + (+ matchesWon + matchesLost + matchesDrawn) + '\t' + matchesWon + '\t' + matchesLost + '\t' + matchesDrawn +'\t' + goalsScoredSeason + '\t' + goalsConcededSeason + '\t' + this.getGoalDifference() + '\t' + competitionPoints);
 	}	
 	
 	/**
@@ -145,7 +145,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 	 * @return A string representing the recent results of the team.
 	 */
 	public String getFormString(){
-		return form.toString();
+		return forms.toString();
 	}
 	
 	
@@ -165,18 +165,18 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 				goalsScoredSeason += goalsFor;
 				goalsConcededSeason += goalsAgainst;
 				competitionPoints += 3;
-				form.addResultToForm(WLD.WIN);
+				forms.addResultToForm(WLD.WIN);
 			} else if (goalsFor == goalsAgainst) {
 				matchesDrawn += 1;
 				goalsScoredSeason += goalsFor;
 				goalsConcededSeason += goalsAgainst;
 				competitionPoints += 1;
-				form.addResultToForm(WLD.DRAW);
+				forms.addResultToForm(WLD.DRAW);
 			} else {
 				matchesLost += 1;
 				goalsScoredSeason += goalsFor;
 				goalsConcededSeason += goalsAgainst;
-				form.addResultToForm(WLD.LOSS);
+				forms.addResultToForm(WLD.LOSS);
 			}
 		}
 	}	
@@ -217,7 +217,7 @@ public class SoccerTeam implements SportsTeam, Comparable<SoccerTeam>{
 		this.matchesLost = 0;
 		this.matchesDrawn = 0;
 		this.competitionPoints = 0;	
-		form.resetForm();
+		forms.resetForm();
 
 	}
 

@@ -44,7 +44,7 @@ public class SoccerCompetition implements SportsCompetition {
 		this.name = name;
 		this.numLeagues = numLeagues;
 		soccerLeagues = new LinkedList<SoccerLeague>();
-		for (int i = 0; i < numLeagues; i++) {
+		for (int league = 0; league < numLeagues; league++) {
 			soccerLeagues.add(new SoccerLeague(numTeams));
 		}
 	}
@@ -93,38 +93,38 @@ public class SoccerCompetition implements SportsCompetition {
 		SoccerTeam tempWinner = null;
 		SoccerTeam currentWinner = null;
 		SoccerTeam prevLoser = null;
-		for (int i = 0; i < numLeagues; i++) {
+		for (int league = 0; league < numLeagues; league++) {
 			if (numLeagues > 1) {
-				if (i == 0) {
+				if (league == 0) {
 					try {
-						tempLoser = soccerLeagues.get(i).getBottomTeam();
-						tempWinner = soccerLeagues.get(i+1).getTopTeam();
-						prevLoser = soccerLeagues.get(i).getBottomTeam();
-						soccerLeagues.get(i).endSeason();
-						soccerLeagues.get(i).removeTeam(tempLoser);
-						soccerLeagues.get(i).registerTeam(tempWinner);
+						tempLoser = soccerLeagues.get(league).getBottomTeam();
+						tempWinner = soccerLeagues.get(league+1).getTopTeam();
+						prevLoser = soccerLeagues.get(league).getBottomTeam();
+						soccerLeagues.get(league).endSeason();
+						soccerLeagues.get(league).removeTeam(tempLoser);
+						soccerLeagues.get(league).registerTeam(tempWinner);
 					} catch (LeagueException e) {
 						System.out.println(e.getMessage());
 					}
-				} else if (i == (numLeagues - 1)) {
+				} else if (league == (numLeagues - 1)) {
 					try {
-						currentWinner = soccerLeagues.get(i).getTopTeam();
-						soccerLeagues.get(i).endSeason();
-						soccerLeagues.get(i).removeTeam(currentWinner);
-						soccerLeagues.get(i).registerTeam(prevLoser);
+						currentWinner = soccerLeagues.get(league).getTopTeam();
+						soccerLeagues.get(league).endSeason();
+						soccerLeagues.get(league).removeTeam(currentWinner);
+						soccerLeagues.get(league).registerTeam(prevLoser);
 					} catch (LeagueException e) {
 						System.out.println(e.getMessage());
 					}
 				} else {
 					try {
-						currentWinner = soccerLeagues.get(i).getTopTeam();
-						tempLoser = soccerLeagues.get(i).getBottomTeam();
-						tempWinner = soccerLeagues.get(i+1).getTopTeam();
-						soccerLeagues.get(i).endSeason();
-						soccerLeagues.get(i).removeTeam(currentWinner);
-						soccerLeagues.get(i).registerTeam(prevLoser);
-						soccerLeagues.get(i).removeTeam(tempLoser);
-						soccerLeagues.get(i).registerTeam(tempWinner);
+						currentWinner = soccerLeagues.get(league).getTopTeam();
+						tempLoser = soccerLeagues.get(league).getBottomTeam();
+						tempWinner = soccerLeagues.get(league+1).getTopTeam();
+						soccerLeagues.get(league).endSeason();
+						soccerLeagues.get(league).removeTeam(currentWinner);
+						soccerLeagues.get(league).registerTeam(prevLoser);
+						soccerLeagues.get(league).removeTeam(tempLoser);
+						soccerLeagues.get(league).registerTeam(tempWinner);
 						prevLoser = tempLoser;
 					} catch (LeagueException e) {
 						System.out.println(e.getMessage());
@@ -133,7 +133,7 @@ public class SoccerCompetition implements SportsCompetition {
 						
 			} else {
 				try {
-					soccerLeagues.get(i).endSeason();
+					soccerLeagues.get(league).endSeason();
 				} catch (LeagueException e) {
 					System.out.println(e.getMessage());
 				}
@@ -146,12 +146,12 @@ public class SoccerCompetition implements SportsCompetition {
 	 */
 	public void displayCompetitionStandings() {
 		System.out.println("+++++" + this.name + "+++++");
-		for (int i = 0; i < soccerLeagues.size(); i++) {
-			System.out.println("---- League" + (i + 1) + " ----");
+		for (int league = 0; league < soccerLeagues.size(); league++) {
+			System.out.println("---- League" + (league + 1) + " ----");
 			System.out.println("Official Name" + '\t' + "Nick Name" + '\t' + "Form" + '\t' + "Played" + '\t'
 					+ "Won" + '\t' + "Lost" + '\t' + "Drawn" + '\t' + "For" + '\t' + "Against" + '\t' + "GlDiff"
 					+ '\t' + "Points");
-			soccerLeagues.get(i).displayLeagueTable();
+			soccerLeagues.get(league).displayLeagueTable();
 		}
 	}
 

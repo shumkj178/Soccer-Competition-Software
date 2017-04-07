@@ -5,8 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sun.xml.internal.ws.streaming.SourceReaderFactory;
-
 import asgn1Exceptions.TeamException;
 import asgn1SoccerCompetition.SoccerTeam;
 

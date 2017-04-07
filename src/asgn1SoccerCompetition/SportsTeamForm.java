@@ -63,15 +63,15 @@ public class SportsTeamForm {
 	 */
 	public String toString(){
 		//Initialize an empty string to save forms
-		String form = "";
-		for (int i = 0; i < maxLength; i++) {
-			if ((getNumGames() - i) >= 1) {
-				form = form + sportsTeamForms.get(i).getChar();
+		String forms = "";
+		for (int gameCount = 0; gameCount < maxLength; gameCount++) {
+			if ((getNumGames() - gameCount) >= 1) {
+				forms = forms + sportsTeamForms.get(gameCount).getChar();
 			} else {
-				form = form + "-";
+				forms = forms + "-";
 			}
 		}
-		return form;
+		return forms;
 	}
 	
 	

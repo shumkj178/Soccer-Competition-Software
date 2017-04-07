@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.internal.runners.statements.Fail;
 
 import asgn1Exceptions.CompetitionException;
 import asgn1Exceptions.LeagueException;
@@ -12,7 +11,6 @@ import asgn1Exceptions.TeamException;
 import asgn1SoccerCompetition.SoccerCompetition;
 import asgn1SoccerCompetition.SoccerLeague;
 import asgn1SoccerCompetition.SoccerTeam;
-import junit.framework.Assert;
 
 /**
  * A set of JUnit tests for the asgn1SoccerCompetition.SoccerCompetition class
@@ -36,10 +34,10 @@ public class SoccerCompetitionTests {
 		/* register 4 teams into 1 league only
 		 * in order to shorten execution time as not every test needs 4 leagues with teams
 		 */
-		for (int i = 0; i < 16; i++) {
-			teams[i] = new SoccerTeam("Team " + i, "team " + i);
-			if (i <= 3) {
-				soccerLeague1.registerTeam(teams[i]);
+		for (int team = 0; team < teams.length; team++) {
+			teams[team] = new SoccerTeam("Team " + team, "team " + team);
+			if (team <= 3) {
+				soccerLeague1.registerTeam(teams[team]);
 			}
 		}
 	}
@@ -51,8 +49,7 @@ public class SoccerCompetitionTests {
 	 */
 	@Test
 	public void testGetLeagueWorking() throws CompetitionException {
-		SoccerLeague x = soccerCompetition1.getLeague(0);
-		assertSame(soccerCompetition1.getLeague(0), x);
+		assertSame(soccerLeague1, soccerCompetition1.getLeague(0));
 	}
 
 	/**
@@ -107,11 +104,14 @@ public class SoccerCompetitionTests {
 	 * Use assertion to confirm whether the league has started or not
 	 * 
 	 * @throws CompetitionException
-	 * @throws LeagueException
 	 */
 	@Test
-	public void testStartSeasonFailWhenTeamsAreNotEnough() throws LeagueException, CompetitionException {
-		soccerCompetition1.getLeague(0).removeTeam(teams[2]);
+	public void testStartSeasonFailWhenTeamsAreNotEnough() throws CompetitionException {
+		try {
+			soccerLeague1.removeTeam(teams[2]);
+		} catch (LeagueException e) {
+			System.out.println(e.getMessage());
+		}
 		soccerCompetition1.startSeason();
 		assertTrue(soccerCompetition1.getLeague(0).isOffSeason());
 	}
@@ -122,7 +122,6 @@ public class SoccerCompetitionTests {
 	 * Use assertion to confirm the exception is threw
 	 * 
 	 * @throws CompetitionException
-	 * @throws LeagueException
 	 */
 	@Test
 	public void testStartSeasonFailsWhenTheSeasonHasStarted() throws CompetitionException {
@@ -166,12 +165,15 @@ public class SoccerCompetitionTests {
 	 * containsTeam is used to check whether the team has been promoted or relegated
 	 * 
 	 * @throws CompetitionException
-	 * @throws LeagueException
 	 */
 	@Test
-	public void testEndSeasonPromotionAndRelagationTakePlaceWith1League() throws CompetitionException, LeagueException {
+	public void testEndSeasonPromotionAndRelagationTakePlaceWith1League() throws CompetitionException {
 		soccerCompetition1.startSeason();
-		soccerLeague1.playMatch("Team 1", 5, "Team 2", 0);
+		try {
+			soccerLeague1.playMatch("Team 1", 5, "Team 2", 0);
+		} catch (LeagueException e) {
+			System.out.println(e.getMessage());
+		}
 		soccerLeague1.sortTeams();
 		soccerCompetition1.endSeason();
 		//After ending season, Team 2 will expected to be remained at the league
@@ -187,23 +189,34 @@ public class SoccerCompetitionTests {
 	 * containsTeam is used to check whether the team has been promoted or relegated
 	 * 
 	 * @throws CompetitionException
-	 * @throws LeagueException
 	 */
 	@Test
-	public void testEndSeasonPromotionAndRelagationTakePlaceWith2Leagues() throws CompetitionException, LeagueException {
+	public void testEndSeasonPromotionAndRelagationTakePlaceWith2Leagues() throws CompetitionException {
 		SoccerCompetition soccerCompetition2 = new SoccerCompetition("La Liga", 2, 4);
 		SoccerLeague soccerLeague_A = soccerCompetition2.getLeague(0);
 		SoccerLeague soccerLeague_B = soccerCompetition2.getLeague(1);
-		for (int i = 0; i < 8; i++) {
-			if (i <= 3) {
-				soccerLeague_A.registerTeam(teams[i]);
+		for (int team = 0; team < 8; team++) {
+			if (team <= 3) {
+				try {
+					soccerLeague_A.registerTeam(teams[team]);
+				} catch (LeagueException e) {
+					System.out.println(e.getMessage());
+				}
 			} else {
-				soccerLeague_B.registerTeam(teams[i]);
+				try {
+					soccerLeague_B.registerTeam(teams[team]);
+				} catch (LeagueException e) {
+					System.out.println(e.getMessage());
+				}
 			}
 		}
 		soccerCompetition2.startSeason();
-		soccerLeague_A.playMatch("Team 1", 5, "Team 2", 0);
-		soccerLeague_B.playMatch("Team 5", 8, "Team 6", 3);
+		try {
+			soccerLeague_A.playMatch("Team 1", 5, "Team 2", 0);
+			soccerLeague_B.playMatch("Team 5", 8, "Team 6", 3);
+		} catch (LeagueException e) {
+			System.out.println(e.getMessage());
+		}		
 		soccerLeague_A.sortTeams();
 		soccerLeague_B.sortTeams();
 		soccerCompetition2.endSeason();
@@ -229,13 +242,13 @@ public class SoccerCompetitionTests {
 		SoccerLeague soccerLeague_A = soccerCompetition3.getLeague(0);
 		SoccerLeague soccerLeague_B = soccerCompetition3.getLeague(1);
 		SoccerLeague soccerLeague_C = soccerCompetition3.getLeague(2);
-		for (int i = 0; i < 12; i++) {
-			if (i <= 3) {
-				soccerLeague_A.registerTeam(teams[i]);
-			} else if (i <= 7) {
-				soccerLeague_B.registerTeam(teams[i]);
+		for (int team = 0; team < 12; team++) {
+			if (team <= 3) {
+				soccerLeague_A.registerTeam(teams[team]);
+			} else if (team <= 7) {
+				soccerLeague_B.registerTeam(teams[team]);
 			} else {
-				soccerLeague_C.registerTeam(teams[i]);
+				soccerLeague_C.registerTeam(teams[team]);
 			}
 		}
 		soccerCompetition3.startSeason();
@@ -272,15 +285,15 @@ public class SoccerCompetitionTests {
 		SoccerLeague soccerLeague_B = soccerCompetition4.getLeague(1);
 		SoccerLeague soccerLeague_C = soccerCompetition4.getLeague(2);
 		SoccerLeague soccerLeague_D = soccerCompetition4.getLeague(3);
-		for (int i = 0; i < 16; i++) {
-			if (i <= 3) {
-				soccerLeague_A.registerTeam(teams[i]);
-			} else if (i <= 7) {
-				soccerLeague_B.registerTeam(teams[i]);
-			} else if (i <= 11) {
-				soccerLeague_C.registerTeam(teams[i]);
+		for (int team = 0; team < 16; team++) {
+			if (team <= 3) {
+				soccerLeague_A.registerTeam(teams[team]);
+			} else if (team <= 7) {
+				soccerLeague_B.registerTeam(teams[team]);
+			} else if (team <= 11) {
+				soccerLeague_C.registerTeam(teams[team]);
 			} else {
-				soccerLeague_D.registerTeam(teams[i]);
+				soccerLeague_D.registerTeam(teams[team]);
 			}
 		}
 		soccerCompetition4.startSeason();
