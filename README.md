@@ -1,3 +1,4 @@
-# README #
+Queensland University of Technology
+CAB302 Software Development
 
-Please see Blackboard for information about this assignment.
+Java Assignment (Soccer Competition Software)
